@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Page Title</title>
+</head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="buttons">
+					
+
+				</div><br>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10">
+				<div class="gifs">
+					
+					
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="input">
+					<h3>Add an actor</h3><br>
+					<input type="text" name="actor" id="actor-input"><br>
+					<input type="submit" value="add" id="button">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+<script>
+$(document).ready(function(){
+var buttons = ["dwayne johnson", "ryan gosling", ""]
+var actorChosen = "";
+var url = "";
+$("#button").on("click", function(){
+
+
+	actorChosen = $("#actor-input").val().trim();
+	url = "https://api.giphy.com/v1/gifs/search?api_key=xJSPO0PJrrJ2i6eKNUI57kpbWz6OMUXn&q=" + actorChosen + "&limit=25&offset=0&rating=G&lang=en";
+	$.ajax({
+		url: url,
+		method: "GET"
+	}).done(function(response){
+		$(".buttons").append("<button type='button' class='buttonClick'>" + actorChosen + "</button>" + "&nbsp")
+		$(".gifs").empty()
+	for (i=0; i < 10; i++){
+		$(".gifs").append("  <img src='" + response.data[i].images.original.url + "' height='200' width='200' style='margin: 10px;'>")
+
+	}
+	});
+
+});
+$(document).on("click", ".buttonClick", function(){
+	actorChosen = $(this).text()
+	url = "https://api.giphy.com/v1/gifs/search?api_key=xJSPO0PJrrJ2i6eKNUI57kpbWz6OMUXn&q=" + actorChosen + "&limit=25&offset=0&rating=G&lang=en";
+	$.ajax({
+		url: url,
+		method: "GET" 
+	}).done(function(response){
+		$(".gifs").empty()
+	for (i=0; i < 10; i++){
+		$(".gifs").append("  <img src='" + response.data[i].images.original.url + "' height='200' width='200' style='margin: 10px;'>")
+
+	}
+	});
+});
+
+
+
+
+});
+</script>
+<style>
+body{
+	margin: 0px;
+	padding: 0;
+}
+</style>
+</html>
